@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #aaaaaa;
+            cursor: not-allowed;
+        }
+        .image-container {
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <select id="category">
+            <option value="Food">Food</option>
+            <option value="Animals">Animals</option>
+            <option value="People">People</option>
+            <option value="Music">Music</option>
+            <option value="Art">Art</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Random">Random</option>
+        </select>
+        <button id="generateButton" disabled>Generate Image</button>
+        <div class="image-container" id="imageContainer"></div>
+    </div>
+
+    <script>
+        document.getElementById("category").addEventListener("change", enableButton);
+
+        function enableButton() {
+            var generateButton = document.getElementById("generateButton");
+            generateButton.disabled = (this.value === "Choose Category");
+        }
+
+        document.getElementById("generateButton").addEventListener("click", function() {
+            var category = document.getElementById("category").value;
+            displayImage(category);
+        });
+
+        function displayImage(category) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://api.unsplash.com/photos/random?query=" + category + "&orientation=landscape&client_id=1n7sSMtCh8Hs_MrBOjhQ1SygTDA-BJ550UdX3rwLYZQ", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var imgUrl = data.urls.regular;
+                    document.getElementById("imageContainer").innerHTML = '<img src="' + imgUrl + '" alt="Generated Image">';
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

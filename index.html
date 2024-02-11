@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator</title>
+</head>
+<body>
+    <form action="/" method="POST">
+        <select name="category">
+            <option value="Food">Food</option>
+            <option value="Animals">Animals</option>
+            <option value="People">People</option>
+            <option value="Music">Music</option>
+            <option value="Art">Art</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Random">Random</option>
+        </select>
+        <button type="submit">Generate Image</button>
+    </form>
+    {% if img_url %}
+        <img src="{{ img_url }}" alt="Generated Image">
+    {% endif %}
+</body>
+</html>
